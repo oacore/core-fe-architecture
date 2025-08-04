@@ -1,306 +1,317 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Guide: Modern Next.js Stack</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8f7f4; /* Warm neutral background */
-            color: #333;
-        }
-        .font-fira {
-            font-family: 'Fira Code', monospace;
-        }
-        .nav-link {
-            transition: color 0.2s ease-in-out;
-        }
-        .nav-link:hover {
-            color: #d97706; /* Amber-600 */
-        }
-        .active-tab {
-            background-color: #d97706 !important;
-            color: #ffffff !important;
-        }
-        .file-tree-item {
-            cursor: pointer;
-            transition: background-color 0.2s ease-in-out;
-        }
-        .file-tree-item:hover {
-            background-color: #e7e5e4; /* Stone-200 */
-        }
-        .file-tree-item.active {
-            background-color: #d6d3d1; /* Stone-300 */
-            font-weight: 600;
-        }
-        .tech-card {
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-        }
-        .tech-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-        }
-        .details-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-in-out;
-        }
-        .details-content.open {
-            max-height: 500px; /* Adjust as needed */
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Guide: Modern React Stack</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+  <!-- Chosen Palette: Warm Neutrals -->
+  <!-- Application Structure Plan: A single-page application with a header for navigation, an interactive file structure explorer, a section for key architectural decisions, and a filterable grid for the technology stack. The user can explore non-linearly, clicking on elements to get more details, which is more engaging and effective for learning than a static document. The structure is now a standard React app using React Router. -->
+  <!-- Visualization & Content Choices:
+      - Report Info: Folder Structure -> Goal: Organize/Inform -> Viz: Interactive file tree (HTML/CSS) -> Interaction: Click to show details -> Justification: More intuitive and engaging than plain text. This updated tree shows a concrete feature example in a React Router context.
+      - Report Info: Key Decisions -> Goal: Inform -> Viz: Card layout (HTML/CSS) -> Interaction: Hover effects -> Justification: Visually separates key concepts for clarity, now focused on the provided stack.
+      - Report Info: Library Stack -> Goal: Organize/Compare -> Viz: Filterable, expandable card grid (HTML/CSS) -> Interaction: Click to filter by category, click to expand for details -> Justification: The tech stack has been filtered to include only the user's chosen technologies, making the section highly relevant and focused.
+  -->
+  <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8f7f4; /* Warm neutral background */
+      color: #333;
+    }
+    .font-fira {
+      font-family: 'Fira Code', monospace;
+    }
+    .nav-link {
+      transition: color 0.2s ease-in-out;
+    }
+    .nav-link:hover {
+      color: #d97706; /* Amber-600 */
+    }
+    .active-tab {
+      background-color: #d97706 !important;
+      color: #ffffff !important;
+    }
+    .file-tree-item {
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+    }
+    .file-tree-item:hover {
+      background-color: #e7e5e4; /* Stone-200 */
+    }
+    .file-tree-item.active {
+      background-color: #d6d3d1; /* Stone-300 */
+      font-weight: 600;
+    }
+    .tech-card {
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+    .tech-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    }
+    .details-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease-in-out;
+    }
+    .details-content.open {
+      max-height: 500px; /* Adjust as needed */
+    }
+  </style>
 </head>
 <body class="bg-[#f8f7f4] text-gray-800">
 
-    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-stone-200">
-        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
-                    <span class="font-bold text-xl text-amber-700">Core  @2025</span>
-                </div>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="#introduction" class="nav-link text-gray-600 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium">Introduction</a>
-                        <a href="#structure" class="nav-link text-gray-600 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium">Architecture</a>
-                        <a href="#decisions" class="nav-link text-gray-600 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium">Key Decisions</a>
-                        <a href="#stack" class="nav-link text-gray-600 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium">Tech Stack</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <main>
-        <section id="introduction" class="py-16 sm:py-24">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-                    <span class="block">Interactive Guide to the</span>
-                    <span class="block text-amber-600">Modern Next.js Enterprise Stack</span>
-                </h1>
-                <p class="mt-6 max-w-2xl mx-auto text-lg leading-8 text-gray-600">
-                    This is a visual exploration of a scalable Next.js application structure for 2025. This guide translates a robust project architecture into an interactive format, focusing on maintainability, performance, and developer experience. Explore the folder structure and recommended libraries below.
-                </p>
-            </div>
-        </section>
-
-        <section id="structure" class="py-16 sm:py-24 bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center">
-                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Application Architecture</h2>
-                    <p class="mt-4 text-lg leading-8 text-gray-600">
-                        A well-organized folder structure is crucial for scalability. This architecture leverages Next.js's App Router for clean separation of concerns. Click on any file or folder below to learn about its role.
-                    </p>
-                </div>
-                <div class="mt-12 lg:grid lg:grid-cols-12 lg:gap-8">
-                    <div class="lg:col-span-4">
-                        <div id="file-tree" class="bg-stone-100 rounded-lg p-4 font-fira text-sm overflow-x-auto">
-                            <!-- File tree will be injected here by JS -->
-                        </div>
-                    </div>
-                    <div class="mt-8 lg:mt-0 lg:col-span-8">
-                        <div id="details-panel" class="bg-stone-100 rounded-lg p-6 h-full min-h-[300px]">
-                            <h3 id="details-title" class="text-xl font-bold text-gray-900">Select an item</h3>
-                            <p id="details-content" class="mt-2 text-gray-700">Click on a file or folder in the tree to see its description here.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="decisions" class="py-16 sm:py-24">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center">
-                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Key Architectural Decisions</h2>
-                    <p class="mt-4 text-lg leading-8 text-gray-600">
-                        This structure is built on core principles that enhance scalability and maintainability for client-side applications. These decisions ensure that the app can grow in complexity without sacrificing organization or developer velocity.
-                    </p>
-                </div>
-                <div class="mt-12 grid gap-8 md:grid-cols-3">
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-lg font-semibold text-amber-700">`src/` Directory</h3>
-                        <p class="mt-2 text-gray-600">Organizing application code within a `src` directory is a standard practice that keeps the project root clean and separates source code from configuration files.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-lg font-semibold text-amber-700">Feature-Based Organization</h3>
-                        <p class="mt-2 text-gray-600">This structure uses a `features/` directory to contain all the code related to a specific feature (components, hooks, state), improving maintainability and scalability.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-lg font-semibold text-amber-700">Client-First Logic</h3>
-                        <p class="mt-2 text-gray-600">All logic is handled on the client-side, with dedicated `services/` for REST API interaction. This is ideal for applications that rely on external data sources and do not require server-side rendering for every page.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="stack" class="py-16 sm:py-24 bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center">
-                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Recommended Tech Stack</h2>
-                    <p class="mt-4 text-lg leading-8 text-gray-600">
-                        This stack is built around your specific choices, combining performance-optimized tools with an excellent developer experience.
-                    </p>
-                </div>
-                <div id="tech-filters" class="mt-8 flex flex-wrap justify-center gap-2">
-                    <!-- Filters will be injected here by JS -->
-                </div>
-                <div id="tech-grid" class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                    <!-- Tech cards will be injected here by JS -->
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="bg-gray-800">
-        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-gray-400">&copy; 2025 Modern Next.js Guide. An interactive visualization.</p>
+<header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-stone-200">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex items-center">
+        <span class="font-bold text-xl text-amber-700">Modern React Stack</span>
+      </div>
+      <div class="hidden md:block">
+        <div class="ml-10 flex items-baseline space-x-4">
+          <a href="#introduction" class="nav-link text-gray-600 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium">Introduction</a>
+          <a href="#structure" class="nav-link text-gray-600 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium">Architecture</a>
+          <a href="#decisions" class="nav-link text-gray-600 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium">Key Decisions</a>
+          <a href="#stack" class="nav-link text-gray-600 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium">Tech Stack</a>
         </div>
-    </footer>
+      </div>
+    </div>
+  </nav>
+</header>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const fileTreeData = {
-                name: 'my-nextjs-app',
-                type: 'folder',
-                description: 'The root directory of the Next.js application.',
-                children: [
-                    { name: '.husky/', type: 'folder', description: "Git hooks for running scripts like linters or tests before commits or pushes." },
-                    { name: '.vscode/', type: 'folder', description: "Workspace settings for Visual Studio Code, ensuring consistent editor configuration for the team." },
-                    { name: 'public/', type: 'folder', description: "Stores static assets like images, fonts, and favicons that are served directly." },
+<main>
+  <section id="introduction" class="py-16 sm:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
+        <span class="block">Interactive Guide to the</span>
+        <span class="block text-amber-600">Modern React Stack</span>
+      </h1>
+      <p class="mt-6 max-w-2xl mx-auto text-lg leading-8 text-gray-600">
+        This is a visual exploration of a scalable React application structure for 2025. This guide translates a robust project architecture into an interactive format, focusing on maintainability, performance, and developer experience. Explore the folder structure and recommended libraries below.
+      </p>
+    </div>
+  </section>
+
+  <section id="structure" class="py-16 sm:py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Application Architecture</h2>
+        <p class="mt-4 text-lg leading-8 text-gray-600">
+          A well-organized folder structure is crucial for scalability. This architecture uses React Router for clean separation of concerns and a client-first approach. Click on any file or folder below to learn about its role.
+        </p>
+      </div>
+      <div class="mt-12 lg:grid lg:grid-cols-12 lg:gap-8">
+        <div class="lg:col-span-4">
+          <div id="file-tree" class="bg-stone-100 rounded-lg p-4 font-fira text-sm overflow-x-auto">
+            <!-- File tree will be injected here by JS -->
+          </div>
+        </div>
+        <div class="mt-8 lg:mt-0 lg:col-span-8">
+          <div id="details-panel" class="bg-stone-100 rounded-lg p-6 h-full min-h-[300px]">
+            <h3 id="details-title" class="text-xl font-bold text-gray-900">Select an item</h3>
+            <p id="details-content" class="mt-2 text-gray-700">Click on a file or folder in the tree to see its description here.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="decisions" class="py-16 sm:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Key Architectural Decisions</h2>
+        <p class="mt-4 text-lg leading-8 text-gray-600">
+          This structure is built on core principles that enhance scalability and maintainability for client-side applications. These decisions ensure that the app can grow in complexity without sacrificing organization or developer velocity.
+        </p>
+      </div>
+      <div class="mt-12 grid gap-8 md:grid-cols-3">
+        <div class="bg-white p-6 rounded-lg shadow-sm">
+          <h3 class="text-lg font-semibold text-amber-700">Client-First Logic</h3>
+          <p class="mt-2 text-gray-600">All logic is handled on the client-side, with dedicated `services/` for REST API interaction. This is ideal for applications that rely on external data sources.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-sm">
+          <h3 class="text-lg font-semibold text-amber-700">Feature-Based Organization</h3>
+          <p class="mt-2 text-gray-600">The `features/` directory co-locates all code for a specific feature (components, hooks, state), improving maintainability and scalability.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-sm">
+          <h3 class="text-lg font-semibold text-amber-700">Declarative Routing with React Router</h3>
+          <p class="mt-2 text-gray-600">React Router replaces file-system-based routing, providing a flexible and declarative way to manage the application's navigation and URL structure.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="stack" class="py-16 sm:py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Recommended Tech Stack</h2>
+        <p class="mt-4 text-lg leading-8 text-gray-600">
+          This stack is built around your specific choices, combining performance-optimized tools with an excellent developer experience.
+        </p>
+      </div>
+      <div id="tech-filters" class="mt-8 flex flex-wrap justify-center gap-2">
+        <!-- Filters will be injected here by JS -->
+      </div>
+      <div id="tech-grid" class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <!-- Tech cards will be injected here by JS -->
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="bg-gray-800">
+  <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 text-center">
+    <p class="text-gray-400">&copy; 2025 Modern React Guide. An interactive visualization.</p>
+  </div>
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const fileTreeData = {
+      name: 'my-react-app',
+      type: 'folder',
+      description: 'The root directory of a standard React application.',
+      children: [
+        { name: '.husky/', type: 'folder', description: "Git hooks for running scripts like linters or tests before commits or pushes." },
+        { name: '.vscode/', type: 'folder', description: "Workspace settings for Visual Studio Code, ensuring consistent editor configuration for the team." },
+        { name: 'public/', type: 'folder', description: "Stores static assets like images and favicons that are served directly." },
+        {
+          name: 'src/',
+          type: 'folder',
+          description: 'The main source code directory for the application.',
+          children: [
+            { name: 'App.tsx', type: 'file', description: "The main component that serves as the root of your application, often containing the router." },
+            { name: 'main.tsx', type: 'file', description: "The entry point of the application, where React is rendered into the DOM." },
+            {
+              name: 'components/',
+              type: 'folder',
+              description: 'Contains global, reusable components from libraries like Ant Design or custom pure components.',
+              children: [
+                { name: 'common/', type: 'folder', description: "Simple, global components like custom buttons or modals that are not feature-specific." },
+                { name: 'layout/', type: 'folder', description: "Layout components like Header, Footer, and Sidebar." }
+              ]
+            },
+            { name: 'config/', type: 'folder', description: "Shared configurations, such as app-wide constants or environment variables." },
+            {
+              name: 'features/',
+              type: 'folder',
+              description: "Contains a folder for each major feature. This is the core of the feature-based architecture.",
+              children: [
+                {
+                  name: 'tasks/',
+                  type: 'folder',
+                  description: "An example feature directory for managing tasks. All components, hooks, and state specific to this feature are co-located here.",
+                  children: [
+                    { name: 'components/', type: 'folder', description: "Components specific to the task feature, e.g., TaskCard.tsx or TaskList.tsx." },
+                    { name: 'hooks/', type: 'folder', description: "Custom hooks for task-related logic, e.g., useFetchTasks.ts." },
                     {
-                        name: 'src/',
-                        type: 'folder',
-                        description: 'The main source code directory for the application.',
-                        children: [
-                            {
-                                name: 'app/',
-                                type: 'folder',
-                                description: "The core of the Next.js App Router. Folders and files here define the application's routes.",
-                                children: [
-                                    { name: '(auth)/', type: 'folder', description: "A route group for authentication-related pages like login and register. The parentheses prevent this folder from being part of the URL." },
-                                    { name: '(main)/', type: 'folder', description: "A route group for the main application pages that are accessed after logging in." },
-                                    { name: 'globals.css', type: 'file', description: "Global CSS styles for the application, often used for base Tailwind styles." },
-                                    { name: 'layout.tsx', type: 'file', description: "The root layout component that wraps all pages, used for shared UI like headers and footers." }
-                                ]
-                            },
-                            {
-                                name: 'components/',
-                                type: 'folder',
-                                description: 'Contains global, reusable components that are not specific to any single feature.',
-                                children: [
-                                     { name: 'common/', type: 'folder', description: "Simple, global components like buttons, inputs, and modals." },
-                                     { name: 'ui/', type: 'folder', description: "Components from shadcn/ui, which can be customized." },
-                                     { name: 'layout/', type: 'folder', description: "Layout components like Header, Footer, and Sidebar." }
-                                ]
-                            },
-                            { name: 'config/', type: 'folder', description: "Shared configurations, such as app-wide constants or environment variable schemas." },
-                            {
-                                name: 'features/',
-                                type: 'folder',
-                                description: "Contains a folder for each major feature. This is the core of the feature-based architecture.",
-                                children: [
-                                    {
-                                        name: 'tasks/',
-                                        type: 'folder',
-                                        description: "An example feature directory for managing tasks. All components, hooks, types, and state specific to this feature are co-located here.",
-                                        children: [
-                                            { name: 'components/', type: 'folder', description: "Components specific to the task feature, e.g., TaskCard.tsx or TaskList.tsx." },
-                                            { name: 'hooks/', type: 'folder', description: "Custom hooks for task-related logic, e.g., useFetchTasks.ts." },
-                                            {
-                                                name: 'store/',
-                                                type: 'folder',
-                                                description: "A dedicated folder for Zustand stores that manage local state for the tasks feature, ensuring all task-related logic is self-contained.",
-                                                children: [
-                                                    { name: 'taskStore.ts', type: 'file', description: "The Zustand store that holds state and actions related to tasks." }
-                                                ]
-                                            },
-                                            { name: 'types/', type: 'folder', description: "TypeScript types and interfaces for the task feature, e.g., Task.ts." },
-                                            { name: 'TasksPage.tsx', type: 'file', description: "The entry component for the tasks feature that orchestrates the use of the other components, hooks, and local state." }
-                                        ]
-                                    },
-                                    { name: 'auth/', type: 'folder', description: "A self-contained feature directory for authentication." },
-                                ]
-                            },
-                            { name: 'hooks/', type: 'folder', description: "Global custom React hooks for reusing stateful logic across different features. Use this for hooks that are not tied to a single feature." },
-                            { name: 'lib/', type: 'folder', description: "Core business logic, helper functions, and data transformation logic." },
-                            { name: 'services/', type: 'folder', description: "Centralized modules for data fetching and interacting with external REST APIs using libraries like React Query or SWR." },
-                            { name: 'stores/', type: 'folder', description: "Global state management stores using Zustand, for state that is shared across multiple features (e.g., user session, theme)." },
-                            { name: 'types/', type: 'folder', description: "Shared TypeScript type definitions and interfaces used throughout the application." },
-                            { name: 'utils/', type: 'folder', description: "Small, reusable utility functions (e.g., for formatting dates or strings)." }
-                        ]
+                      name: 'store/',
+                      type: 'folder',
+                      description: "A dedicated folder for Zustand stores that manage local state for the tasks feature, ensuring all task-related logic is self-contained.",
+                      children: [
+                        { name: 'taskStore.ts', type: 'file', description: "The Zustand store that holds state and actions related to tasks." }
+                      ]
                     },
-                    { name: 'next.config.js', type: 'file', description: "Configuration file for Next.js, used to customize its behavior." },
-                    { name: 'package.json', type: 'file', description: "Defines project metadata, dependencies, and scripts." },
-                    { name: 'tsconfig.json', type: 'file', description: "Configuration file for the TypeScript compiler." },
-                    { name: 'tailwind.config.ts', type: 'file', description: "Configuration file for Tailwind CSS, used to customize the design system." }
-                ]
-            };
+                    { name: 'types/', type: 'folder', description: "TypeScript types and interfaces for the task feature, e.g., Task.ts." },
+                    { name: 'Tasks.tsx', type: 'file', description: "The entry component for the tasks feature that orchestrates the use of the other components, hooks, and local state." }
+                  ]
+                },
+                { name: 'auth/', type: 'folder', description: "A self-contained feature directory for authentication." },
+              ]
+            },
+            { name: 'hooks/', type: 'folder', description: "Global custom React hooks for reusing stateful logic across different features. Use this for hooks that are not tied to a single feature." },
 
-            const techStackData = [
-                { category: 'UI/Styling', name: 'Tailwind CSS', description: 'A utility-first CSS framework for rapid UI development.' },
-                { category: 'UI/Styling', name: 'shadcn/ui', description: 'A collection of accessible, reusable components built with Tailwind and Radix UI. You own the code, allowing for maximum customization.' },
-                { category: 'State Management', name: 'Zustand', description: "A small, fast, and scalable state management solution. It's an excellent, minimal alternative to Redux for most use cases." },
-                { category: 'Data Fetching', name: 'React Query / SWR', description: 'These libraries are essential for managing server-side data fetching and caching, reducing boilerplate and improving performance by minimizing unnecessary requests.' },
-                { category: 'Type Safety', name: 'TypeScript', description: 'The standard for building large-scale applications, providing type safety and better developer tooling.' },
-                { category: 'Linting/Formatting', name: 'ESLint & Prettier', description: 'ESLint enforces code style and catches common errors, while Prettier is an opinionated code formatter that ensures a consistent style across the entire codebase.' },
-            ];
+            {
+              name: 'routes/',
+              type: 'folder',
+              description: "Contains the application's routing configuration using React Router, including all route definitions and layouts.",
+              children: [
+                { name: 'index.tsx', type: 'file', description: "The primary file for defining all application routes." }
+              ]
+            },
+            { name: 'services/', type: 'folder', description: "Centralized modules for interacting with external REST APIs using Axios and SWR." },
+            { name: 'stores/', type: 'folder', description: "Global state management stores using Zustand, for state that is shared across multiple features (e.g., user session, theme)." },
+            { name: 'styles/', type: 'folder', description: "Dedicated folder for custom global CSS or module-specific CSS files." },
+            { name: 'types/', type: 'folder', description: "Shared TypeScript type definitions and interfaces used throughout the application." },
+            { name: 'utils/', type: 'folder', description: "Small, reusable utility functions (e.g., for formatting dates or strings)." }
+          ]
+        },
+        { name: 'package.json', type: 'file', description: "Defines project metadata, dependencies, and scripts." },
+        { name: 'tsconfig.json', type: 'file', description: "Configuration file for the TypeScript compiler." },
+      ]
+    };
 
-            const fileTreeContainer = document.getElementById('file-tree');
-            const detailsTitle = document.getElementById('details-title');
-            const detailsContent = document.getElementById('details-content');
+    const techStackData = [
+      { category: 'Core', name: 'React', description: 'The core library for building user interfaces.' },
+      { category: 'Core', name: 'TypeScript', description: 'The standard for building large-scale applications, providing type safety and better developer tooling.' },
+      { category: 'UI/Styling', name: 'Ant Design', description: 'A comprehensive, enterprise-grade UI library with a large set of accessible components.' },
+      { category: 'UI/Styling', name: 'Pure CSS', description: 'For custom styles that extend or override Ant Design, or for components that require a tailored approach.' },
+      { category: 'State Management', name: 'Zustand', description: "A small, fast, and scalable state management solution. It's an excellent, minimal alternative to Redux for most use cases." },
+      { category: 'Data Fetching', name: 'SWR (stale-while-revalidate)', description: 'A lightweight library for data fetching that handles caching, revalidation, and background updates. It pairs well with React Suspense for a better user experience.' },
+      { category: 'Data Fetching', name: 'Axios', description: 'A popular, promise-based HTTP client for making API requests from the browser or Node.js.' },
+      { category: 'Routing', name: 'React Router', description: 'The standard library for declarative, client-side routing in React applications.' },
+      { category: 'Forms', name: 'React Hook Form', description: 'A highly performant and flexible library for building forms, with minimal re-renders and easy integration with validation libraries.' },
+      { category: 'Monitoring', name: 'LogRocket', description: 'A monitoring and session replay tool that helps you debug production issues by recording what users do on your site.' },
+      { category: 'Linting/Formatting', name: 'ESLint & Prettier', description: 'ESLint enforces code style and catches common errors, while Prettier is an opinionated code formatter that ensures a consistent style across the entire codebase.' },
+      { category: 'Git Hooks', name: 'Husky', description: "A tool that enables you to run scripts before a git commit or push, ensuring code quality standards are met by all team members." },
+    ];
 
-            function createFileTreeHTML(item, level = 0) {
-                const isFolder = item.type === 'folder';
-                const paddingLeft = level * 20 + 'px';
-                let html = `
+    const fileTreeContainer = document.getElementById('file-tree');
+    const detailsTitle = document.getElementById('details-title');
+    const detailsContent = document.getElementById('details-content');
+
+    function createFileTreeHTML(item, level = 0) {
+      const isFolder = item.type === 'folder';
+      const paddingLeft = level * 20 + 'px';
+      let html = `
                     <div class="file-tree-item flex items-center p-1 rounded" style="padding-left: ${paddingLeft};" data-description="${item.description}" data-name="${item.name}">
                         <span class="mr-2">${isFolder ? '📁' : '📄'}</span>
                         <span>${item.name}</span>
                     </div>
                 `;
-                if (isFolder && item.children) {
-                    html += `<div class="pl-4 border-l border-stone-300">`;
-                    item.children.forEach(child => {
-                        html += createFileTreeHTML(child, level + 1);
-                    });
-                    html += `</div>`;
-                }
-                return html;
-            }
+      if (isFolder && item.children) {
+        html += `<div class="pl-4 border-l border-stone-300">`;
+        item.children.forEach(child => {
+          html += createFileTreeHTML(child, level + 1);
+        });
+        html += `</div>`;
+      }
+      return html;
+    }
 
-            fileTreeContainer.innerHTML = createFileTreeHTML(fileTreeData);
+    fileTreeContainer.innerHTML = createFileTreeHTML(fileTreeData);
 
-            fileTreeContainer.addEventListener('click', function(e) {
-                const item = e.target.closest('.file-tree-item');
-                if (item) {
-                    document.querySelectorAll('.file-tree-item.active').forEach(el => el.classList.remove('active'));
-                    item.classList.add('active');
+    fileTreeContainer.addEventListener('click', function(e) {
+      const item = e.target.closest('.file-tree-item');
+      if (item) {
+        document.querySelectorAll('.file-tree-item.active').forEach(el => el.classList.remove('active'));
+        item.classList.add('active');
 
-                    detailsTitle.textContent = item.dataset.name;
-                    detailsContent.textContent = item.dataset.description;
-                }
-            });
+        detailsTitle.textContent = item.dataset.name;
+        detailsContent.textContent = item.dataset.description;
+      }
+    });
 
-            const techFiltersContainer = document.getElementById('tech-filters');
-            const techGridContainer = document.getElementById('tech-grid');
-            const categories = ['All', ...new Set(techStackData.map(t => t.category))];
+    const techFiltersContainer = document.getElementById('tech-filters');
+    const techGridContainer = document.getElementById('tech-grid');
+    const categories = ['All', ...new Set(techStackData.map(t => t.category))];
 
-            techFiltersContainer.innerHTML = categories.map(category => `
+    techFiltersContainer.innerHTML = categories.map(category => `
                 <button class="tech-filter-btn px-4 py-2 text-sm font-medium rounded-full border border-stone-300 bg-white text-gray-700 hover:bg-stone-100 transition" data-category="${category}">
                     ${category}
                 </button>
             `).join('');
 
-            const filterButtons = document.querySelectorAll('.tech-filter-btn');
-            filterButtons[0].classList.add('active-tab');
+    const filterButtons = document.querySelectorAll('.tech-filter-btn');
+    filterButtons[0].classList.add('active-tab');
 
-            function renderTechCards(filter = 'All') {
-                const filteredData = filter === 'All' ? techStackData : techStackData.filter(t => t.category === filter);
-                techGridContainer.innerHTML = filteredData.map((tech, index) => `
+    function renderTechCards(filter = 'All') {
+      const filteredData = filter === 'All' ? techStackData : techStackData.filter(t => t.category === filter);
+      techGridContainer.innerHTML = filteredData.map((tech, index) => `
                     <div class="tech-card bg-white p-6 rounded-lg shadow-sm cursor-pointer" data-index="${index}">
                         <h3 class="text-lg font-semibold text-amber-700">${tech.name}</h3>
                         <div class="details-content mt-2 text-gray-600">
@@ -308,28 +319,27 @@
                         </div>
                     </div>
                 `).join('');
-            }
+    }
 
-            techFiltersContainer.addEventListener('click', function(e) {
-                const btn = e.target.closest('.tech-filter-btn');
-                if (btn) {
-                    filterButtons.forEach(b => b.classList.remove('active-tab'));
-                    btn.classList.add('active-tab');
-                    renderTechCards(btn.dataset.category);
-                }
-            });
+    techFiltersContainer.addEventListener('click', function(e) {
+      const btn = e.target.closest('.tech-filter-btn');
+      if (btn) {
+        filterButtons.forEach(b => b.classList.remove('active-tab'));
+        btn.classList.add('active-tab');
+        renderTechCards(btn.dataset.category);
+      }
+    });
 
-            techGridContainer.addEventListener('click', function(e) {
-                const card = e.target.closest('.tech-card');
-                if (card) {
-                    const details = card.querySelector('.details-content');
-                    details.classList.toggle('open');
-                }
-            });
+    techGridContainer.addEventListener('click', function(e) {
+      const card = e.target.closest('.tech-card');
+      if (card) {
+        const details = card.querySelector('.details-content');
+        details.classList.toggle('open');
+      }
+    });
 
-            renderTechCards();
-        });
-    </script>
+    renderTechCards();
+  });
+</script>
 </body>
 </html>
-
